@@ -1,0 +1,83 @@
+---
+import "../../styles/global.css";
+import TechCard from "../../components/TechCard.astro";
+import data from "../../data/items.json";
+
+const events = data.items.filter((i) => i.type === "event");
+const competitions = data.items.filter((i) => i.type === "competition");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tech Events & Competitions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: 'Orbitron', sans-serif;
+        background-color: #040503;
+        background-image: url('/asfalt-light.png');
+      }
+      
+      .section-heading {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="min-h-screen px-6 py-12 md:p-16 lg:p-24 max-w-7xl mx-auto">
+      
+      <section class="mb-20 md:mb-24">
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4">
+          Events
+        </h1>
+        <div class="w-16 md:w-24 h-[3px] bg-cyan-400 mb-8 md:mb-12"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+          {
+            events.map((event) => (
+              <TechCard
+                title={event.title}
+                description={event.shortDescription}
+                link={`/events/${event.slug}`}
+                tag={event.tag}
+                image={event.image}
+                accent={event.accent}
+              />
+            ))
+          }
+        </div>
+      </section>
+
+      <section>
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4">
+          Competitions
+        </h1>
+        <div class="w-16 md:w-24 h-[3px] bg-pink-500 mb-8 md:mb-12"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+          {
+            competitions.map((comp) => (
+              <TechCard
+                title={comp.title}
+                description={comp.shortDescription}
+                link={`/events/${comp.slug}`}
+                tag={comp.tag}
+                image={comp.image}
+                accent={comp.accent}
+              />
+            ))
+          }
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

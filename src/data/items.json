@@ -1,0 +1,75 @@
+{
+  "items": [
+    {
+      "slug": "digital-reality",
+      "type": "event",
+      "title": "Digital Reality Experience",
+      "shortDescription": "Immersive VR and mixed-reality experience",
+      "fullDescription": "An in-depth VR experience with hands-on demos and real-world applications.",
+      "tag": "COMPUTER SCIENCE",
+      "accent": "#00f2ff",
+      "image": "/virtual-reality.jpg"
+    },
+    {
+      "slug": "RoboNex : the future unlocked",
+      "type": "event",
+      "title": "RoboNex : the future unlocked",
+      "shortDescription": "RoboNex is an autonomous robot for short-range deliveries, using sensors and embedded control to navigate safely with minimal human input.",
+      "fullDescription": "RoboNex is an autonomous delivery robot designed to perform short-range delivery tasks in controlled environments such as campuses, hostels, hospitals, and tech parks. It acts as a nexus between navigation, sensing, and intelligent control by integrating microcontrollers, sensors, motors, and embedded computing. The robot detects obstacles, navigates safely, and delivers items efficiently with minimal human intervention. RoboNex demonstrates the practical application of robotics, automation, and embedded systems to solve real-world logistics challenges.",
+      "tag": "ARTIFICIAL INTELLIGENCE",
+      "accent": "#00f2ff",
+      "image": "/robot.jpeg"
+    },
+    {
+      "slug": "Blind Coding",
+      "type": "competition",
+      "title": "Blind Coding",
+      "shortDescription": "Blind Coding is a Python-based programming challenge where students solve tasks without continuously checking the output. Open to students of 12th grade and below, the event tests logic, accuracy, and problem-solving skills.",
+      "fullDescription": "Blind Coding is a Python-only coding competition designed for school students (12th grade and below) that focuses on logical thinking and precise coding rather than trial-and-error execution.\n\nParticipants can compete individually or as a team. They will be given a problem statement and must write a complete Python program with limited or no access to live output. This forces participants to plan their logic clearly before coding and rely on understanding rather than repeated testing.\n\nThe event is structured to be beginner-friendly while still challenging students to think carefully about syntax, conditions, and program flow. Evaluation will be based on correctness, logic, and successful completion of the task.\n\nWinners will receive certificates of achievement.",
+      "tag": "COMPUTER SCIENCE",
+      "accent": "#ff0055",
+      "image": "/blind_code.jpg"
+    },
+    {
+      "slug": "Algorithm Debugging",
+      "type": "competition",
+      "title": "Algorithm Debugging",
+      "shortDescription": "Algorithm Debugging challenges participants to identify the algorithm behind a faulty program and fix the logic within a limited time. Designed for undergraduate students, the event tests analytical thinking and debugging skills.",
+      "fullDescription": "Algorithm Debugging is a competitive event for undergraduate students that focuses on understanding and correcting algorithm-based code rather than writing programs from scratch.\n\nParticipants, individually or in teams, will be given a set of faulty code snippets. Their task is to analyze the code, identify the underlying algorithm, and correct the logical or implementation errors. This requires strong problem-solving skills, algorithm knowledge, and attention to detail.\n\nEach participant or team will be given 10 minutes to debug five algorithm-based problems. Performance will be evaluated based on correctness and completion within the allotted time.\n\nSuccessful participants will receive certificates of achievement.",
+      "tag": "computer science",
+      "accent": "#ff0055",
+      "image": "/algorithm.jpg"
+    },
+    {
+      "slug": "E-Football",
+      "type": "competition",
+      "title": "E-Football",
+      "shortDescription": "A fast-paced 1v1 football gaming challenge where skill, strategy, and quick decision-making decide the winner.",
+      "fullDescription": "E-Football is a one-on-one competitive gaming event where players face off in head-to-head matches. The event focuses on individual skill, game control, and tactical gameplay. Each match is designed to be quick and competitive, ensuring a high-adrenaline experience for participants.\n\nEntry Fee: ₹30\n\nMode: 1 vs 1",
+      "tag": "computer science",
+      "accent": "#ff0055",
+      "image": "/efootball.jpg"
+    },
+    {
+      "slug": "Free Fire",
+      "type": "competition",
+      "title": "Free Fire",
+      "shortDescription": "A multiplayer battle event where teams compete in intense Free Fire matches across solo, duo, and squad formats.",
+      "fullDescription": "Free Fire brings a full-scale multiplayer battle experience to Gaming Rush. Participants can register as solo players, duos, or squads. Matches will be conducted on the full map to ensure fair and competitive gameplay.\n\nIf the total number of teams is less than 10, the event format will shift to Clash Squad mode. In such cases, solo and duo participants will be grouped together to form teams.\n\nEntry Fee:\nSquad: ₹100\nDuo: ₹55\nSolo: ₹30\n\nMode: 4 vs 4 (Full Map)\n\nFallback Mode: Clash Squad (for fewer participants)",
+      "tag": "computer science",
+      "accent": "#ff0055",
+      "image": "/freefire.jpg"
+    },
+    {
+      "slug": "PUBG",
+      "type": "competition",
+      "title": "PUBG",
+      "shortDescription": "A competitive PUBG battle event featuring solo, duo, and squad gameplay with structured match formats.",
+      "fullDescription": "PUBG (BGMI) is a strategic multiplayer battle event where participants compete in organized matches requiring teamwork, coordination, and survival skills. Players can enter as solo, duo, or squad teams.\n\nMatches will be conducted on the full map. If fewer than 15 teams register, the event will be shifted to Clash Squad mode, where solo and duo players will be grouped to form balanced teams.\n\nEntry Fee:\nSquad: ₹100\nDuo: ₹55\nSolo: ₹30\n\nMode: 4 vs 4 (Full Map)\n\nFallback Mode: Clash Squad (for fewer participants)",
+      "tag": "computer science",
+      "accent": "#ff0055",
+      "image": "/pubg.jpg"
+    }
+  ]
+}
+

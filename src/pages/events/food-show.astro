@@ -1,0 +1,35 @@
+---
+import "../../styles/global.css";
+import TechCard from "../../components/TechCard.astro";
+import data from "../../data/items.json";
+
+//const events = data.items.filter((i) => i.type === "event");
+//const competitions = data.items.filter((i) => i.type === "competition");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tech Events & Competitions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: 'Orbitron', sans-serif;
+        background-color: #040503;
+        background-image: url('/foodshow_tex.png');
+      }
+      
+      .section-heading {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+
+  </html>
