@@ -21,11 +21,11 @@ const competitions = data.items.filter((i) => i.type === "competition");
 
     <style>
       body {
-        font-family: 'Orbitron', sans-serif;
+        font-family: "Orbitron", sans-serif;
         background-color: #040503;
-        background-image: url('/asfalt-light.png');
+        background-image: url("/asfalt-light.png");
       }
-      
+
       .section-heading {
         text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
       }
@@ -34,14 +34,17 @@ const competitions = data.items.filter((i) => i.type === "competition");
 
   <body>
     <div class="min-h-screen px-6 py-12 md:p-16 lg:p-24 max-w-7xl mx-auto">
-      
       <section class="mb-20 md:mb-24">
-        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4">
+        <h1
+          class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4"
+        >
           Events
         </h1>
         <div class="w-16 md:w-24 h-[3px] bg-cyan-400 mb-8 md:mb-12"></div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10"
+        >
           {
             events.map((event) => (
               <TechCard
@@ -58,12 +61,16 @@ const competitions = data.items.filter((i) => i.type === "competition");
       </section>
 
       <section>
-        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4">
+        <h1
+          class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4"
+        >
           Competitions
         </h1>
         <div class="w-16 md:w-24 h-[3px] bg-pink-500 mb-8 md:mb-12"></div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10"
+        >
           {
             competitions.map((comp) => (
               <TechCard
