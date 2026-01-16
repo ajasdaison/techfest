@@ -1,0 +1,2 @@
+export { registerParticipant } from "./register";
+

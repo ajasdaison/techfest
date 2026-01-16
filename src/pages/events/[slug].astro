@@ -1,15 +1,51 @@
 ---
 import "../../styles/global.css";
-import data from "../../data/items.json";
+import { supabase } from "../../lib/supabase";
 
-export function getStaticPaths() {
-  return data.items.map((item) => ({
-    params: { slug: item.slug },
-    props: { item },
+/* ---------- STATIC PATHS FROM DATABASE ---------- */
+export async function getStaticPaths() {
+  const { data, error } = await supabase
+    .from("programs")
+    .select("slug");
+
+  if (error) throw error;
+
+  return data.map((row) => ({
+    params: { slug: row.slug },
   }));
 }
 
-const { item } = Astro.props;
+/* ---------- FETCH SINGLE PROGRAM ---------- */
+const { slug } = Astro.params;
+
+const { data: program, error } = await supabase
+  .from("programs")
+  .select(`
+    type,
+    program_details (
+      title,
+      full_description
+    ),
+    program_tags (
+      tags (
+        name
+      )
+    )
+  `)
+  .eq("slug", slug)
+  .single();
+
+if (error || !program) {
+  throw new Error("Program not found");
+}
+
+/* ---------- SHAPE DATA TO MATCH OLD JSON ---------- */
+const item = {
+  title: program.program_details.title,
+  type: program.type,
+  fullDescription: program.program_details.full_description,
+  tag: program.program_tags[0]?.tags?.name ?? null,
+};
 ---
 
 <html lang="en">
@@ -170,18 +206,14 @@ const { item } = Astro.props;
     <main
       class="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-4 py-12"
     >
-      <div
-        class="mb-8 md:mb-12 opacity-0 transform translate-y-4"
-        id="header-reveal"
-      >
+      <div class="mb-8 md:mb-12 opacity-0 transform translate-y-4" id="header-reveal">
         <div
           class="inline-block mb-4 px-3 py-1 border border-cyan-500/30 bg-cyan-500/10 text-[8px] md:text-[10px] uppercase tracking-[0.4em] text-cyan-400"
         >
           System Ready // Protocol 2026
         </div>
-        <h1
-          class="glitch text-3xl md:text-6xl lg:text-7xl font-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-white"
-        >
+
+        <h1 class="glitch text-3xl md:text-6xl lg:text-7xl font-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-white">
           {item.title}
         </h1>
       </div>
@@ -192,18 +224,14 @@ const { item } = Astro.props;
         <div class="relative">
           <p
             id="typewriter-text"
-            data-fulltext={item.fullDescription || item.description}
+            data-fulltext={item.fullDescription}
             class="text-base md:text-xl text-cyan-100/90 font-light leading-relaxed mb-6 min-h-[4em]"
-          >
-          </p>
+          ></p>
         </div>
 
         {
           item.tag && (
-            <div
-              class="inline-flex items-center gap-2 opacity-0"
-              id="tag-reveal"
-            >
+            <div class="inline-flex items-center gap-2 opacity-0" id="tag-reveal">
               <span class="w-4 md:w-8 h-[1px] bg-cyan-500/50" />
               <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.5em] text-cyan-400 font-bold">
                 {item.tag}
@@ -213,26 +241,12 @@ const { item } = Astro.props;
           )
         }
 
-        <div
-          class="absolute top-2 left-2 w-2 h-2 border-t border-l border-cyan-400/50"
-        >
-        </div>
-        <div
-          class="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-cyan-400/50"
-        >
-        </div>
-      </div>
-
-      <div
-        class="mt-8 md:mt-12 flex flex-wrap justify-center gap-4 md:gap-8 opacity-0 text-[8px] md:text-[9px] uppercase tracking-widest font-mono text-cyan-300"
-        id="footer-reveal"
-      >
-        <span>LAT: 40.7128° N</span>
-        <span>LONG: 74.0060° W</span>
-        <span>STATUS: OPERATIONAL</span>
+        <div class="absolute top-2 left-2 w-2 h-2 border-t border-l border-cyan-400/50"></div>
+        <div class="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-cyan-400/50"></div>
       </div>
     </main>
   </body>
 </html>
 
-<script type="module" src="/src/scripts/slug.js" < script></script>
+<script type="module" src="/src/scripts/slug.js"></script>
+

@@ -1,10 +1,31 @@
 ---
 import "../../styles/global.css";
 import TechCard from "../../components/TechCard.astro";
-import data from "../../data/items.json";
+import RegisterModal from "../../components/RegisterModal.astro";
+import { supabase } from "../../lib/supabase";
 
-const events = data.items.filter((i) => i.type === "event");
-const competitions = data.items.filter((i) => i.type === "competition");
+const { data: programs, error } = await supabase
+  .from("programs")
+  .select(`
+    slug,
+    type,
+    program_details (
+      title,
+      short_description,
+      accent,
+      image
+    ),
+    program_tags (
+      tags (
+        name
+      )
+    )
+  `);
+
+if (error) throw error;
+
+const events = programs.filter(p => p.type === "event");
+const competitions = programs.filter(p => p.type === "competition");
 ---
 
 <!doctype html>
@@ -13,7 +34,9 @@ const competitions = data.items.filter((i) => i.type === "competition");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tech Events & Competitions</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap"
       rel="stylesheet"
@@ -34,57 +57,60 @@ const competitions = data.items.filter((i) => i.type === "competition");
 
   <body>
     <div class="min-h-screen px-6 py-12 md:p-16 lg:p-24 max-w-7xl mx-auto">
+
+      <!-- EVENTS -->
       <section class="mb-20 md:mb-24">
-        <h1
-          class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4"
-        >
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4">
           Events
         </h1>
+
         <div class="w-16 md:w-24 h-[3px] bg-cyan-400 mb-8 md:mb-12"></div>
 
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10"
-        >
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
           {
-            events.map((event) => (
+            events.map(event => (
               <TechCard
-                title={event.title}
-                description={event.shortDescription}
+                slug={event.slug}
+                title={event.program_details.title}
+                description={event.program_details.short_description}
                 link={`/events/${event.slug}`}
-                tag={event.tag}
-                image={event.image}
-                accent={event.accent}
+                tag={event.program_tags[0]?.tags?.name ?? ""}
+                image={event.program_details.image}
+                accent={event.program_details.accent}
               />
             ))
           }
         </div>
       </section>
 
+      <!-- COMPETITIONS -->
       <section>
-        <h1
-          class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4"
-        >
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4">
           Competitions
         </h1>
+
         <div class="w-16 md:w-24 h-[3px] bg-pink-500 mb-8 md:mb-12"></div>
 
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10"
-        >
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
           {
-            competitions.map((comp) => (
+            competitions.map(comp => (
               <TechCard
-                title={comp.title}
-                description={comp.shortDescription}
+                slug={comp.slug}
+                title={comp.program_details.title}
+                description={comp.program_details.short_description}
                 link={`/events/${comp.slug}`}
-                tag={comp.tag}
-                image={comp.image}
-                accent={comp.accent}
+                tag={comp.program_tags[0]?.tags?.name ?? ""}
+                image={comp.program_details.image}
+                accent={comp.program_details.accent}
               />
             ))
           }
         </div>
       </section>
+
     </div>
+
+    <RegisterModal />
   </body>
 </html>
+

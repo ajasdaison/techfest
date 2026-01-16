@@ -1,5 +1,10 @@
 ---
 import "../styles/global.css";
+
+import { supabase } from "../lib/supabase";
+
+const { data, error } = await supabase.from("programs").select("*");
+console.log(data, error);
 // This is the "frontmatter" - for server-side logic (won't be sent to the browser)
 // We define variables here that we use in the HTML below.
 const pageTitle = "IGNITE | TOMS College of Engineering Techfest";
