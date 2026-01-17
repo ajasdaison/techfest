@@ -1,5 +1,6 @@
 ---
 const {
+  slug,
   title,
   description,
   link,
@@ -89,6 +90,17 @@ const {
         >
           Initialize Access
         </a>
+         <!-- NEW: Register button -->
+      <button
+  data-register
+  data-slug={slug}
+  data-title={title}
+  type="button"
+  class="relative z-30 block w-full py-2 border border-[var(--accent)] text-[var(--accent)] text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--accent)] hover:text-black transition"
+>
+  Register
+</button>
+
         <div
           class="text-[var(--accent)] text-[8px] font-mono uppercase tracking-[0.4em] opacity-60"
         >
