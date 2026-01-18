@@ -1,0 +1,163 @@
+---
+import "../../styles/global.css"
+import Layout from "../../layouts/Layout.astro";
+import { createBEClient } from "../../lib/supabase-admin";
+
+const supabase = createBEClient({
+  request: Astro.request,
+  cookies: Astro.cookies,
+});
+
+const { data: auth } = await supabase.auth.getUser();
+if (!auth.user) return Astro.redirect("/");
+
+const { data: profile } = await supabase
+  .from("profiles")
+  .select("role")
+  .eq("id", auth.user.id)
+  .single();
+
+// Access control check
+if (profile?.role !== "coordinator" && profile?.role !== "admin") {
+  return Astro.redirect("/dashboard");
+}
+
+const selectedSlug = Astro.url.searchParams.get("program");
+
+// FIX: Removed 'title' from selection as it's not in your schema
+const { data: programs } = await supabase
+  .from("programs")
+  .select("id, slug, type")
+  .order("slug");
+
+let registrations = [];
+
+if (selectedSlug) {
+  const { data, error } = await supabase
+    .from("registrations")
+    .select(`
+      id,
+      participant_name,
+      email,
+      phone,
+      attended,
+      programs!inner (
+        slug
+      )
+    `)
+    .eq("programs.slug", selectedSlug)
+    .order("participant_name");
+
+  if (error) console.error(error.message);
+  else registrations = data;
+}
+---
+
+<Layout title="Coordinator Portal | Attendance">
+  <main class="min-h-screen bg-[#0a0f1c] text-slate-100 font-sans p-4 md:p-10">
+    <div class="max-w-4xl mx-auto">
+      
+      <header class="mb-10 text-center md:text-left">
+        <div class="inline-block px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold tracking-widest uppercase mb-4">
+          Event Operations
+        </div>
+        <h1 class="text-4xl font-black tracking-tight text-white italic">
+          COORDINATOR <span class="text-blue-500">DASHBOARD</span>
+        </h1>
+      </header>
+
+      <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl mb-8 backdrop-blur-md">
+        <form method="get" class="flex flex-col md:flex-row md:items-end gap-4">
+          <div class="flex-1">
+            <label class="block mb-3 text-sm font-medium text-slate-400 uppercase tracking-wider">Select Active Program</label>
+            <div class="relative">
+              <select
+                name="program"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white appearance-none focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                onchange="this.form.submit()"
+              >
+                <option value="">-- Choose Program --</option>
+                {programs?.map(p => (
+                  <option value={p.slug} selected={p.slug === selectedSlug}>
+                    {p.slug.toUpperCase()} ({p.type})
+                  </option>
+                ))}
+              </select>
+              <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+                ▼
+              </div>
+            </div>
+          </div>
+          
+          {selectedSlug && (
+            <div class="bg-blue-600 px-6 py-3 rounded-xl font-bold flex flex-col justify-center items-center">
+               <span class="text-[10px] uppercase opacity-80">Total</span>
+               <span class="text-xl leading-none">{registrations.length}</span>
+            </div>
+          )}
+        </form>
+      </div>
+
+      {selectedSlug && (
+        <div class="bg-slate-900/50 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+          <div class="p-6 border-b border-slate-800 bg-slate-900/80 flex justify-between items-center">
+            <h2 class="font-bold text-lg uppercase tracking-tight">Participant Check-in</h2>
+            <span class="text-xs text-slate-500">Showing all records for "{selectedSlug}"</span>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="text-left text-xs text-slate-500 uppercase tracking-widest border-b border-slate-800">
+                  <th class="p-5 font-semibold">Participant Info</th>
+                  <th class="p-5 font-semibold text-center">Attendance Status</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800">
+                {registrations.length === 0 ? (
+                  <tr>
+                    <td colspan="2" class="p-10 text-center text-slate-500 italic">No registrations found for this program.</td>
+                  </tr>
+                ) : (
+                  registrations.map(r => (
+                    <tr class="hover:bg-blue-500/5 transition-colors group">
+                      <td class="p-5">
+                        <div class="font-bold text-slate-100 group-hover:text-blue-400 transition-colors uppercase tracking-tight">
+                          {r.participant_name}
+                        </div>
+                        <div class="text-sm text-slate-500">{r.email}</div>
+                      </td>
+                      <td class="p-5">
+                        <div class="flex justify-center">
+                          <label class="relative inline-flex items-center cursor-pointer">
+                            <input 
+                              type="checkbox" 
+                              checked={r.attended} 
+                              data-id={r.id}
+                              class="sr-only peer attended-toggle" 
+                            />
+                            <div class="w-14 h-7 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"></div>
+                          </label>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Cyber-grid background effect */
+  main {
+    background-image: 
+      linear-gradient(rgba(30, 41, 59, 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 41, 59, 0.5) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+</style>
