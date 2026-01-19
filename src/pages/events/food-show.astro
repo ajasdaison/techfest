@@ -12,8 +12,11 @@ if (error) {
   throw new Error(error.message);
 }
 
-const events = foodfest.filter(item => item.type === "event");
-const competitions = foodfest.filter(item => item.type === "Cold Beverages");
+const Snack_Savories = foodfest.filter(item => item.type === "Snack $ Savories");
+const Cold_Beverages = foodfest.filter(item => item.type === "Cold Beverages");
+const Hot_Beverages= foodfest.filter(item => item.type === "Hot Beverages");
+const Desserts = foodfest.filter(item => item.type === "Desserts");
+const Main_Course = foodfest.filter(item => item.type === "Main Course");
 ---
 
 <!doctype html>
@@ -44,16 +47,17 @@ const competitions = foodfest.filter(item => item.type === "Cold Beverages");
   <body>
     <div class="min-h-screen px-6 py-12 md:p-16 lg:p-24 max-w-7xl mx-auto">
 
-      <!-- EVENTS -->
+      
+ <!-- HOT BEVERAGES -->
       <section class="mb-20">
         <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.2em] mb-4">
-          Events
+         Hot & Beverages
         </h1>
 
-        <div class="w-24 h-[3px] bg-cyan-400 mb-12"></div>
+        <div class="w-24 h-[3px] bg-pink-500 mb-12"></div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {events.map(event => (
+          {Hot_Beverages.map(event => (
             <FoodCard
               title={event.title}
               tag={event.tag}
@@ -63,16 +67,17 @@ const competitions = foodfest.filter(item => item.type === "Cold Beverages");
         </div>
       </section>
 
-      <!-- COMPETITIONS -->
+
+      <!-- COLD BEVERAGES-->
       <section>
         <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.2em] mb-4">
-          Competitions
+          Cold Beverages
         </h1>
 
-        <div class="w-24 h-[3px] bg-pink-500 mb-12"></div>
+        <div class="w-24 h-[3px] bg-cyan-400 mb-12"></div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {competitions.map(comp => (
+            {Cold_Beverages.map(comp => (
             <FoodCard
               title={comp.title}
               tag={comp.tag}
@@ -81,6 +86,67 @@ const competitions = foodfest.filter(item => item.type === "Cold Beverages");
             ))} 
         </div>
       </section>
+
+      
+
+      <!-- DESSERTS-->
+      <section>
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.2em] mb-4">
+          Desserts
+        </h1>
+
+        <div class="w-24 h-[3px] bg-pink-500 mb-12"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {Desserts.map(comp => (
+            <FoodCard
+              title={comp.title}
+              tag={comp.tag}
+              image={comp.image}
+            />
+            ))} 
+        </div>
+      </section>
+
+      <!-- SNACK & SAVORIES -->
+      <section class="mb-20">
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.2em] mb-4">
+          Snack & Savories
+        </h1>
+
+        <div class="w-24 h-[3px] bg-cyan-400 mb-12"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {Snack_Savories.map(event => (
+            <FoodCard
+              title={event.title}
+              tag={event.tag}
+              image={event.image}
+            />
+          ))}
+        </div>
+      </section>
+
+
+      <!-- Main Course-->
+      <section>
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.2em] mb-4">
+         Main Course
+        </h1>
+
+        <div class="w-24 h-[3px] bg-pink-500 mb-12"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {Main_Course.map(comp => (
+            <FoodCard
+              title={comp.title}
+              tag={comp.tag}
+              image={comp.image}
+            />
+            ))} 
+        </div>
+      </section>
+
 
     </div>
   </body>
