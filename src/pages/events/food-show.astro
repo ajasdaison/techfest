@@ -1,10 +1,18 @@
 ---
 import "../../styles/global.css";
-import  FoodCard from "../../components/FoodCard.astro";
-import data from "../../data/items.json";
+import FoodCard from "../../components/FoodCard.astro";
+import { supabase } from "../../lib/supabase";
 
-//const events = data.items.filter((i) => i.type === "event");
-//const competitions = data.items.filter((i) => i.type === "competition");
+const { data: foodfest, error } = await supabase
+  .from("foodfest")
+  .select("title, tag, image, type")
+  .order("created_at", { ascending: true });
+
+if (error) {
+  throw new Error(error.message);
+}
+
+const events = foodfest.filter(item => item.type === "event");
 ---
 
 <!doctype html>
@@ -12,8 +20,8 @@ import data from "../../data/items.json";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tech Events & Competitions</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Food Fest</title>
+
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap"
       rel="stylesheet"
@@ -31,4 +39,49 @@ import data from "../../data/items.json";
       }
     </style>
   </head>
+
+  <body>
+    <div class="min-h-screen px-6 py-12 md:p-16 lg:p-24 max-w-7xl mx-auto">
+
+      <!-- EVENTS -->
+      <section class="mb-20">
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.2em] mb-4">
+          Events
+        </h1>
+
+        <div class="w-24 h-[3px] bg-cyan-400 mb-12"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {events.map(event => (
+            <FoodCard
+              title={event.title}
+              tag={event.tag}
+              image={event.image}
+            />
+          ))}
+        </div>
+      </section>
+
+      <!-- COMPETITIONS -->
+      <section>
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.2em] mb-4">
+          Competitions
+        </h1>
+
+        <div class="w-24 h-[3px] bg-pink-500 mb-12"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <!--  {competitions.map(comp => (
+            <FoodCard
+              title={comp.title}
+              tag={comp.tag}
+              image={comp.image}
+            />
+            ))} -->
+        </div>
+      </section>
+
+    </div>
+  </body>
 </html>
+
