@@ -113,15 +113,31 @@ const loopEvents = [...card, ...card];
 
   <body>
     <div class="min-h-screen px-6 py-12 md:p-16 lg:p-24 max-w-7xl mx-auto">
-      <section class="mb-20">
-        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-widest mb-4">Events</h1>
-        <div class="w-20 h-[3px] bg-cyan-400 mb-12"></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {events.map((event) => (
-            <TechCard {...event} title={event.program_details.title} description={event.program_details.short_description} image={event.program_details.image} accent={event.program_details.accent} />
-          ))}
+           <!-- EVENTS -->
+      <section class="mb-20 md:mb-24">
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4">
+          Events
+        </h1>
+
+        <div class="w-16 md:w-24 h-[3px] bg-cyan-400 mb-8 md:mb-12"></div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+          {
+            events.map(event => (
+              <TechCard
+                slug={event.slug}
+                title={event.program_details.title}
+                description={event.program_details.short_description}
+                link={`/events/${event.slug}`}
+                tag={event.program_tags[0]?.tags?.name ?? ""}
+                image={event.program_details.image}
+                accent={event.program_details.accent}
+              />
+            ))
+          }
         </div>
       </section>
+
 
       <!-- COMPETITIONS -->
       <section>
