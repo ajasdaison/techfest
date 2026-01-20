@@ -1,17 +1,20 @@
 ---
 import "../../styles/global.css";
 import AutoCard from "../../components/AutoCard.astro";
+import { supabase } from "../../lib/supabase";
 
-const events = [
-  { title: "Robo Wars", image: "/robot.jpeg", accent: "#ff004c" },
-  { title: "Hackathon", image: "/hack.jpg", accent: "#00f2ff" },
-  { title: "Drone Race", image: "/drone.jpg", accent: "#bc00ff" },
-  { title: "Cyber Security", image: "/cyber.jpg", accent: "#39ff14" },
-  { title: "AI Summit", image: "/ai.jpg", accent: "#f4ff00" },
-];
+const { data: autoshow, error } = await supabase
+  .from("AutoShow")
+  .select("type, image, accent")
+  .order("created_at", { ascending: true });
 
+if (error) {
+  throw new Error(error.message);
+}
+
+const event = autoshow.filter(item => item.type === "autoshow");
 // Double for desktop loop; mobile will handle this via script
-const loopEvents = [...events, ...events];
+const loopEvents = [...event, ...event];
 ---
 
 <!doctype html>
@@ -103,13 +106,13 @@ r   <title>Tech Events | 2026</title>
     <div class="container mx-auto px-6 md:px-10 mb-6 z-20">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h2 class="text-[10px] tracking-[0.4em] text-cyan-400 font-bold uppercase mb-1">2026 Innovation Circuit</h2>
+          <h2 class="text-[10px] tracking-[0.4em] text-cyan-400 font-bold uppercase mb-1">2026 AUTOSHOW</h2>
           <h1 class="text-4xl sm:text-6xl md:text-7xl font-black uppercase font-orbitron tracking-tighter italic">
-            TECH <span class="opacity-30">EVENTS</span>
+            CAMARO <span class="opacity-30">EVENTS</span>
           </h1>
         </div>
         <p class="text-gray-400 max-w-xs text-xs md:text-sm leading-relaxed border-l-2 border-cyan-500/50 pl-4 py-1">
-          The arena where future-tech is forged in real-time. Steel meets code.
+          Automobile and Mechanical presents the automobile expo
         </p>
       </div>
     </div>
