@@ -5,7 +5,7 @@ import AutoCard from "../../components/AutoCard.astro";
 import RegisterModal from "../../components/RegisterModal.astro";
 import { supabase } from "../../lib/supabase";
 
-const { data: programs, error } = await supabase.from("programs").select(`
+const { data: programs, error1 } = await supabase.from("programs").select(`
     slug,
     type,
     program_details (
@@ -21,21 +21,24 @@ const { data: programs, error } = await supabase.from("programs").select(`
     )
   `);
 
+  const { data: AutoShow, error } = await supabase.from("AutoShow").select(`
+    type,
+  image,
+  accent
+  `);
+
 if (error) throw error;
+if (error1) throw error;
+
 
 const events = programs.filter((p) => p.type === "airshow");
 const competitions = programs.filter((p) => p.type === "workshop");
+const AirShow = AutoShow.filter((p) => p.type === "Air Show");
 
-const card = [
-  { title: "Robo Wars", image: "/robot.jpeg", accent: "#ff004c" },
-  { title: "Hackathon", image: "/hack.jpg", accent: "#00f2ff" },
-  { title: "Drone Race", image: "/drone.jpg", accent: "#bc00ff" },
-  { title: "Cyber Security", image: "/cyber.jpg", accent: "#39ff14" },
-  { title: "AI Summit", image: "/ai.jpg", accent: "#f4ff00" },
-];
+
 
 // Keep the loop for desktop, we'll handle mobile visibility via CSS
-const loopEvents = [...card, ...card];
+const loopEvents = [...AirShow, ...AirShow];
 ---
 
 <!doctype html>
@@ -144,7 +147,7 @@ const loopEvents = [...card, ...card];
         <h1
           class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-[0.15em] md:tracking-[0.2em] mb-4"
         >
-          Competitions
+          Tech Events
         </h1>
 
         <div class="w-16 md:w-24 h-[3px] bg-pink-500 mb-8 md:mb-12"></div>
@@ -170,7 +173,7 @@ const loopEvents = [...card, ...card];
 
 
       <section class="mt-32">
-        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-widest mb-4">ISRO Highlights</h1>
+        <h1 class="section-heading text-white text-3xl md:text-5xl font-black uppercase tracking-widest mb-4">ISRO : SPACE ON WHEELS </h1>
         <div class="w-20 h-[3px] bg-pink-500 mb-12"></div>
 
         <div class="slider-container" id="sliderContainer">
