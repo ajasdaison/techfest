@@ -1,0 +1,252 @@
+---
+import "../../styles/global.css";
+import { supabase } from "../../lib/supabase";
+
+/* ---------- STATIC PATHS FROM DATABASE ---------- */
+export async function getStaticPaths() {
+  const { data, error } = await supabase
+    .from("programs")
+    .select("slug");
+
+  if (error) throw error;
+
+  return data.map((row) => ({
+    params: { slug: row.slug },
+  }));
+}
+
+/* ---------- FETCH SINGLE PROGRAM ---------- */
+const { slug } = Astro.params;
+
+const { data: program, error } = await supabase
+  .from("programs")
+  .select(`
+    type,
+    program_details (
+      title,
+      full_description
+    ),
+    program_tags (
+      tags (
+        name
+      )
+    )
+  `)
+  .eq("slug", slug)
+  .single();
+
+if (error || !program) {
+  throw new Error("Program not found");
+}
+
+/* ---------- SHAPE DATA TO MATCH OLD JSON ---------- */
+const item = {
+  title: program.program_details.title,
+  type: program.type,
+  fullDescription: program.program_details.full_description,
+  tag: program.program_tags[0]?.tags?.name ?? null,
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{item.title} | TechFest 2026</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --neon-cyan: #00f3ff;
+        --deep-void: #020008;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Orbitron", sans-serif;
+        background: var(--deep-void);
+        color: white;
+        overflow-x: hidden;
+      }
+
+      .bg-grid {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        background-image:
+          linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+        background-size: 50px 50px;
+      }
+
+      .scanlines {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          transparent 50%,
+          rgba(0, 255, 170, 0.02) 50%
+        );
+        background-size: 100% 4px;
+        z-index: 20;
+        pointer-events: none;
+      }
+
+      .vignette {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          circle at center,
+          transparent 0%,
+          rgba(0, 0, 0, 0.8) 100%
+        );
+        z-index: 5;
+        pointer-events: none;
+      }
+
+      .glitch {
+        position: relative;
+        animation: glitch 1.5s infinite;
+      }
+
+      @keyframes glitch {
+        0% {
+          text-shadow:
+            0.05em 0 0 #ff0051,
+            -0.05em -0.025em 0 #00ffaa;
+        }
+        14% {
+          text-shadow:
+            0.05em 0 0 #ff0051,
+            -0.05em -0.025em 0 #00ffaa;
+        }
+        15% {
+          text-shadow:
+            -0.05em -0.025em 0 #ff0051,
+            0.025em 0.025em 0 #00ffaa;
+        }
+        49% {
+          text-shadow:
+            -0.05em -0.025em 0 #ff0051,
+            0.025em 0.025em 0 #00ffaa;
+        }
+        50% {
+          text-shadow:
+            0.025em 0.05em 0 #ff0051,
+            0.05em 0 0 #00ffaa;
+        }
+        100% {
+          text-shadow:
+            -0.025em 0 0 #ff0051,
+            -0.025em -0.025em 0 #00ffaa;
+        }
+      }
+
+      .tech-card {
+        position: relative;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 243, 255, 0.03) 0%,
+          rgba(2, 0, 8, 0.95) 100%
+        );
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 243, 255, 0.2);
+        padding: 1.5rem;
+        width: 90%;
+        max-width: 800px;
+        clip-path: polygon(
+          0% 5%,
+          5% 0%,
+          95% 0%,
+          100% 5%,
+          100% 95%,
+          95% 100%,
+          5% 100%,
+          0% 95%
+        );
+      }
+
+      @media (min-width: 768px) {
+        .tech-card {
+          padding: 3rem;
+          clip-path: polygon(
+            0% 10%,
+            5% 0%,
+            95% 0%,
+            100% 10%,
+            100% 90%,
+            95% 100%,
+            5% 100%,
+            0% 90%
+          );
+        }
+      }
+
+      .card-label {
+        font-family: monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        color: var(--neon-cyan);
+        opacity: 0.7;
+        margin-bottom: 1rem;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="bg-grid"></div>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+
+    <main
+      class="relative z-10 min-h-screen flex flex-col items-center justify-center text-center px-4 py-12"
+    >
+      <div class="mb-8 md:mb-12 opacity-0 transform translate-y-4" id="header-reveal">
+        <div
+          class="inline-block mb-4 px-3 py-1 border border-cyan-500/30 bg-cyan-500/10 text-[8px] md:text-[10px] uppercase tracking-[0.4em] text-cyan-400"
+        >
+          System Ready // Protocol 2026
+        </div>
+
+        <h1 class="glitch text-3xl md:text-6xl lg:text-7xl font-black uppercase tracking-[0.1em] md:tracking-[0.2em] text-white">
+          {item.title}
+        </h1>
+      </div>
+
+      <div class="tech-card opacity-0 scale-95" id="card-reveal">
+        <span class="card-label uppercase">{item.type}</span>
+
+        <div class="relative">
+          <p
+            id="typewriter-text"
+            data-fulltext={item.fullDescription}
+            class="text-base md:text-xl text-cyan-100/90 font-light leading-relaxed mb-6 min-h-[4em]"
+          ></p>
+        </div>
+
+        {
+          item.tag && (
+            <div class="inline-flex items-center gap-2 opacity-0" id="tag-reveal">
+              <span class="w-4 md:w-8 h-[1px] bg-cyan-500/50" />
+              <span class="text-[10px] md:text-xs uppercase tracking-[0.3em] md:tracking-[0.5em] text-cyan-400 font-bold">
+                {item.tag}
+              </span>
+              <span class="w-4 md:w-8 h-[1px] bg-cyan-500/50" />
+            </div>
+          )
+        }
+
+        <div class="absolute top-2 left-2 w-2 h-2 border-t border-l border-cyan-400/50"></div>
+        <div class="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-cyan-400/50"></div>
+      </div>
+    </main>
+  </body>
+</html>
+
+<script type="module" src="/src/scripts/slug.js"></script>
+
