@@ -11,8 +11,8 @@
  	const cookieHeader = request.headers.get("Cookie") || "";
 
  	return createServerClient(
- 		process.env.SUPABASE_URL,
- 		process.env.SUPABASE_ANON_KEY,
+ 		import.meta.env.PUBLIC_SUPABASE_URL,
+ 		import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
  		{
  			cookies: {
  				getAll() {
