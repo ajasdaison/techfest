@@ -2,7 +2,7 @@ import { e as createComponent, n as renderHead, r as renderTemplate } from '../c
 import 'piccolore';
 import 'clsx';
 /* empty css                                 */
-import { s as supabase } from '../chunks/supabase_CDspt_xR.mjs';
+import { s as supabase } from '../chunks/supabase_raZd2PF0.mjs';
 /* empty css                                 */
 export { renderers } from '../renderers.mjs';
 

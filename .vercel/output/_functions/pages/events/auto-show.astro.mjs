@@ -2,7 +2,7 @@ import { e as createComponent, n as renderHead, o as renderScript, k as renderCo
 import 'piccolore';
 /* empty css                                    */
 import { $ as $$AutoCard } from '../../chunks/AutoCard_B2rlQ0A-.mjs';
-import { s as supabase } from '../../chunks/supabase_CDspt_xR.mjs';
+import { s as supabase } from '../../chunks/supabase_raZd2PF0.mjs';
 /* empty css                                        */
 export { renderers } from '../../renderers.mjs';
 

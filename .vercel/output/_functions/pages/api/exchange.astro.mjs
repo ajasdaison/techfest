@@ -1,4 +1,4 @@
-import { c as createBEClient } from '../../chunks/supabase-admin_BBOFaI1N.mjs';
+import { c as createBEClient } from '../../chunks/supabase-admin_B89kAoRZ.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const GET = async ({

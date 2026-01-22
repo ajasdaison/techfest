@@ -4,8 +4,8 @@ import 'es-module-lexer';
 import './chunks/astro/server_DfGMZ1H6.mjs';
 import 'clsx';
 import { z } from 'zod';
-import { s as supabase } from './chunks/supabase_CDspt_xR.mjs';
-import { c as createBEClient } from './chunks/supabase-admin_BBOFaI1N.mjs';
+import { s as supabase } from './chunks/supabase_raZd2PF0.mjs';
+import { c as createBEClient } from './chunks/supabase-admin_B89kAoRZ.mjs';
 import { a as defineAction } from './chunks/index_Bd9iJzjS.mjs';
 
 const internalFetchHeaders = {};

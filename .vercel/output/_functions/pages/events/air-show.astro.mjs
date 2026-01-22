@@ -3,7 +3,7 @@ import 'piccolore';
 /* empty css                                    */
 import { $ as $$TechCard, a as $$RegisterModal } from '../../chunks/RegisterModal_BRvJ_8sj.mjs';
 import { $ as $$AutoCard } from '../../chunks/AutoCard_B2rlQ0A-.mjs';
-import { s as supabase } from '../../chunks/supabase_CDspt_xR.mjs';
+import { s as supabase } from '../../chunks/supabase_raZd2PF0.mjs';
 /* empty css                                       */
 export { renderers } from '../../renderers.mjs';
 

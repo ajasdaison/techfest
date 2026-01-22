@@ -2,7 +2,7 @@ import { e as createComponent, f as createAstro, k as renderComponent, r as rend
 import 'piccolore';
 /* empty css                                    */
 import { $ as $$Layout } from '../../chunks/Layout_D0y8IvGy.mjs';
-import { c as createBEClient } from '../../chunks/supabase-admin_BBOFaI1N.mjs';
+import { c as createBEClient } from '../../chunks/supabase-admin_B89kAoRZ.mjs';
 /* empty css                                    */
 export { renderers } from '../../renderers.mjs';
 

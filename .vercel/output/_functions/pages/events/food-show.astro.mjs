@@ -2,7 +2,7 @@ import { e as createComponent, f as createAstro, m as maybeRenderHead, h as addA
 import 'piccolore';
 /* empty css                                    */
 import 'clsx';
-import { s as supabase } from '../../chunks/supabase_CDspt_xR.mjs';
+import { s as supabase } from '../../chunks/supabase_raZd2PF0.mjs';
 /* empty css                                        */
 export { renderers } from '../../renderers.mjs';
 

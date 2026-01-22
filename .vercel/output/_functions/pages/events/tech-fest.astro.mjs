@@ -2,7 +2,7 @@ import { e as createComponent, o as renderScript, n as renderHead, k as renderCo
 import 'piccolore';
 /* empty css                                    */
 import { $ as $$TechCard, a as $$RegisterModal } from '../../chunks/RegisterModal_BRvJ_8sj.mjs';
-import { s as supabase } from '../../chunks/supabase_CDspt_xR.mjs';
+import { s as supabase } from '../../chunks/supabase_raZd2PF0.mjs';
 /* empty css                                        */
 export { renderers } from '../../renderers.mjs';
 

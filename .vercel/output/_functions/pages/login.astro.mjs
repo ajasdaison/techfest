@@ -1,7 +1,7 @@
 import { e as createComponent, f as createAstro, k as renderComponent, o as renderScript, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_DfGMZ1H6.mjs';
 import 'piccolore';
 import { $ as $$Layout } from '../chunks/Layout_D0y8IvGy.mjs';
-import { c as createBEClient } from '../chunks/supabase-admin_BBOFaI1N.mjs';
+import { c as createBEClient } from '../chunks/supabase-admin_B89kAoRZ.mjs';
 /* empty css                                 */
 export { renderers } from '../renderers.mjs';
 

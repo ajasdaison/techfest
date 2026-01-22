@@ -6,8 +6,8 @@ function createBEClient({
 }) {
   const cookieHeader = request.headers.get("Cookie") || "";
   return createServerClient(
-    undefined                            ,
-    undefined                                 ,
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
