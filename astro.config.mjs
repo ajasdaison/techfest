@@ -1,7 +1,7 @@
 // @ts-check
 import 'dotenv/config';
 import { defineConfig } from 'astro/config';
-import vercel from "@astrojs/vercel/serverless";
+import vercel from "@astrojs/vercel";
 
 import tailwindcss from '@tailwindcss/vite';
 import node from '@astrojs/node';
