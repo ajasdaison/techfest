@@ -2,22 +2,13 @@
 import "../../styles/global.css";
 import { supabase } from "../../lib/supabase";
 
-/* ---------- STATIC PATHS FROM DATABASE ---------- */
-export async function getStaticPaths() {
-  const { data, error } = await supabase
-    .from("programs")
-    .select("slug");
+/* THIS PAGE MUST BE SERVER-RENDERED */
+export const prerender = false;
 
-  if (error) throw error;
-
-  return data.map((row) => ({
-    params: { slug: row.slug },
-  }));
-}
-
-/* ---------- FETCH SINGLE PROGRAM ---------- */
+/* ---------- GET SLUG FROM URL ---------- */
 const { slug } = Astro.params;
 
+/* ---------- FETCH SINGLE PROGRAM ---------- */
 const { data: program, error } = await supabase
   .from("programs")
   .select(`
@@ -35,18 +26,20 @@ const { data: program, error } = await supabase
   .eq("slug", slug)
   .single();
 
+/* ---------- HANDLE NOT FOUND ---------- */
 if (error || !program) {
-  throw new Error("Program not found");
+  return new Response("Program not found", { status: 404 });
 }
 
-/* ---------- SHAPE DATA TO MATCH OLD JSON ---------- */
+/* ---------- SHAPE DATA ---------- */
 const item = {
   title: program.program_details.title,
   type: program.type,
   fullDescription: program.program_details.full_description,
-  tag: program.program_tags[0]?.tags?.name ?? null,
+  tag: program.program_tags?.[0]?.tags?.name ?? null,
 };
 ---
+
 
 <html lang="en">
   <head>
