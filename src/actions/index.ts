@@ -20,10 +20,13 @@ const emailSignUp = async (
 
 		console.log("Request cookies:", context.request.headers.get("Cookie"));
 
+		const url = new URL(context.request.url);
+		const emailRedirectTo = `${url.origin}/api/exchange`;
+
 		const { data, error } = await supabase.auth.signInWithOtp({
 			email,
 			options: {
-				emailRedirectTo: "http://localhost:4321/api/exchange",
+				emailRedirectTo,
 			},
 		});
 
