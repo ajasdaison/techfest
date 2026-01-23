@@ -1,6 +1,6 @@
 ---
 import "../../styles/global.css";
-import { createBEClient } from "../../lib/supabase-admin";
+import { supabase } from "../../lib/supabase";
 
 /* THIS PAGE MUST BE SERVER-RENDERED */
 export const prerender = false;
@@ -8,10 +8,6 @@ export const prerender = false;
 /* ---------- GET SLUG FROM URL ---------- */
 const { slug } = Astro.params;
 
-const supabase = createBEClient({
-  request: Astro.request,
-  cookies: Astro.cookies,
-});
 
 /* ---------- FETCH SINGLE PROGRAM ---------- */
 const { data: program, error } = await supabase
