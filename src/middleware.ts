@@ -1,47 +1,26 @@
----
-import { createBEClient } from "./lib/supabase-admin";
 import { defineMiddleware } from "astro:middleware";
-
-const protectedRoutes = ["/dashboard"];
-const adminRoutes = ["/dashboard/admin"];
+import { createBEClient } from "./lib/supabase-admin";
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  const { url, request, cookies, redirect } = context;
-  const { pathname } = url;
+	const { pathname } = context.url;
 
-  if (protectedRoutes.some((route) => pathname.startsWith(route))) {
-    const supabase = createBEClient({ request, cookies });
-    const { data: auth } = await supabase.auth.getUser();
+	console.log("Middleware executing for path:", pathname);
 
-    if (!auth.user) {
-      return redirect("/");
-    }
+	const supabase = createBEClient({
+		request: context.request,
+		cookies: context.cookies,
+	});
 
-    const { data: profile, error } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", auth.user.id)
-      .single();
+	if (pathname === "/dashboard") {
+		console.log("Checking auth for protected route");
 
-    if (error || !profile) {
-      return redirect("/");
-    }
+		const { data } = await supabase.auth.getUser();
 
-    if (pathname === "/dashboard") {
-      if (profile.role === "admin") {
-        return redirect("/dashboard/admin");
-      } else {
-        return redirect("/dashboard/coordinator");
-      }
-    }
+		// If no sess, redirect to index
+		if (!data.user) {
+			return context.redirect("/");
+		}
+	}
 
-    if (
-      adminRoutes.some((route) => pathname.startsWith(route)) &&
-      profile.role !== "admin"
-    ) {
-      return redirect("/dashboard/coordinator");
-    }
-  }
-
-  return next();
+	return next();
 });

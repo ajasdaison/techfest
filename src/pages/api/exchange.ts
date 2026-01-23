@@ -21,5 +21,5 @@ export const GET: APIRoute = async ({
 		return redirect("/404");
 	}
 
-	return redirect("/dashboard");
+	return redirect("/protected");
 };
